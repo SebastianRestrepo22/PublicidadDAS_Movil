@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {
-  final Map<String, String> evento;
+  final Map<String, dynamic> evento;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
@@ -27,15 +27,24 @@ class EventCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                evento["fecha"]!.split("/")[0],
+                evento["fecha"].toString().split("/")[0],
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               const Text("Día", style: TextStyle(fontSize: 12)),
             ],
           ),
         ),
-        title: Text(evento["nombre"] ?? ""),
-        subtitle: Text(evento["servicio"] ?? ""),
+        title: Text(
+          evento["nombre"]?.toString() ?? "",
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(evento["servicio"]?.toString() ?? ""),
+            Text("Hora: ${evento["hora"]?.toString() ?? ""}"),
+          ],
+        ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
