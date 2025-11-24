@@ -71,7 +71,6 @@ class _AgendaScreenState extends State<AgendaScreen> {
                 TextField(
                   controller: fechaController,
                   decoration: inputDecoration.copyWith(labelText: "Fecha"),
-                 
                 ),
                 const SizedBox(height: 10),
                 TextField(
@@ -132,9 +131,11 @@ class _AgendaScreenState extends State<AgendaScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(60),
-        child: AgendaAppBar(),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: SafeArea(
+          child: const AgendaAppBar(), // SafeArea asegura que no quede tapado por notch
+        ),
       ),
       body: Column(
         children: [

@@ -57,8 +57,8 @@ class _BienvenidaPageState extends State<BienvenidaPage>
       }
     });
 
-    // Espera 5 segundos antes de iniciar la animación
-    Future.delayed(const Duration(seconds: 5), () {
+    // Espera 10 segundos antes de iniciar la animación
+    Future.delayed(const Duration(seconds: 10), () {
       if (mounted) {
         _controller.forward();
       }

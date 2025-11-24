@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const ventasPage(),                       // 1
     const InsumosScreen(),                    // 2
     const InsumosPage(),                      // 3
-    const pedidosPage(),                      // 4
+    const comprasPage(),                      // 4
     const verPedidoPage(),                    // 5
     const verVentaPage(),                     // 6
     const AgendaScreen(),                     // 7

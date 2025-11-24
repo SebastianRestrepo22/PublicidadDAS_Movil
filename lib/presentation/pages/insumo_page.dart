@@ -18,18 +18,18 @@ class InsumosPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // ---------- APPBAR SUPERIOR ----------
-          Container(
-            width: double.infinity,
-            height: 100,
-            decoration: const BoxDecoration(
-              color: Color(0xFF243652),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
+          // ---------- APPBAR SUPERIOR ----------  
+          SafeArea(
+            child: Container(
+              width: double.infinity,
+              height: 100,
+              decoration: const BoxDecoration(
+                color: Color(0xFF243652),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
               ),
-            ),
-            child: SafeArea(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

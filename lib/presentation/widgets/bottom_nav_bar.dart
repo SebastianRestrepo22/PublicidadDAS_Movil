@@ -38,7 +38,7 @@ class NavBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.receipt_long),
-          label: 'Pedidos',
+          label: 'Compras',
         ),
       ],
     );

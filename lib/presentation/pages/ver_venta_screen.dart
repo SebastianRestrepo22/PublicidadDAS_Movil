@@ -13,7 +13,7 @@ class verVentaPage extends StatelessWidget {
           Container(
             width: double.infinity,
             height: 140,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color.fromRGBO(37, 57, 92, 1),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
@@ -24,8 +24,7 @@ class verVentaPage extends StatelessWidget {
               children: [
                 Container(
                   margin: const EdgeInsets.all(30),
-                  alignment: Alignment
-                      .centerLeft, // asegura que el icono quede a la izquierda
+                  alignment: Alignment.centerLeft,
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pushReplacement(
@@ -38,159 +37,185 @@ class verVentaPage extends StatelessWidget {
                     child: const Icon(Icons.arrow_back, color: Colors.white),
                   ),
                 ),
-                const SizedBox(height: 20), // separación entre icono y título
+                const SizedBox(height: 20),
                 const Text(
                   'DETALLE VENTA',
                   style: TextStyle(fontSize: 20, color: Colors.white),
-                  textAlign: TextAlign.center, // centra el texto
+                  textAlign: TextAlign.center,
                 ),
               ],
             ),
           ),
 
-          SizedBox(height: 50),
+          const SizedBox(height: 40),
 
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  // MASTER USANDO TABLA VENTAS
                   Container(
                     width: 330,
-                    height: 150,
-                    padding: EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(18),
                     decoration: BoxDecoration(
-                      color: Color.fromRGBO(240, 240, 240, 1),
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(18),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.07),
+                          blurRadius: 6,
+                          spreadRadius: 1,
+                        ),
+                      ],
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
+                        const Text(
+                          "VENTA #A4523", // VentaId
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Vanessa Perea',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                              ),
-                            ),
-                            Text(
-                              'Cedula ID : 1022954574',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: null,
-                              ),
-                            ),
-                            Text(
-                              '\$12,000',
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontSize: 20,
-                              ),
-                            ),
+                          children: const [
+                            Text("Fecha Venta:",
+                                style: TextStyle(color: Colors.grey)),
+                            Text("2025-02-10"),
                           ],
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text("IVA:",
+                                style: TextStyle(color: Colors.grey)),
+                            Text("19%"),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text("Total:",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 81, 218, 86))),
+                            Text("\$12,000.00",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Color.fromARGB(255, 81, 218, 86))),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.greenAccent,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: const Text(
+                            "Pagada",
+                            style: TextStyle(fontSize: 11, color: Colors.black),
+                          ),
+                        )
                       ],
                     ),
                   ),
 
-                  SizedBox(height: 10),
+                  const SizedBox(height: 20),
 
-                  Container(
-                    width: 330,
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(240, 240, 240, 1),
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                    ),
-                    child: ExpansionTile(
-                      leading: Container(
-                        width: 24,
-                        height: 24,
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(37, 57, 92, 1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        alignment: Alignment.center,
-                        child: const Text(
-                          '01',
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                      ),
-                      title: const Text(
-                        "Nombre Producto/Servicio: Calendario",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: const Text("Tipo: Producto"),
-                      children: [
-                        // Secciones desplegables
-                        ListTile(
-                          title: const Text("Descripción:"),
-                          trailing: const Text("Con pinzas"),
-                        ),
-                        ListTile(
-                          title: const Text("Cantidad:"),
-                          trailing: const Text("10 unidades"),
-                        ),
-                        ListTile(
-                          title: const Text("Alto:"),
-                          trailing: const Text("10 cm"),
-                        ),
-                        ListTile(
-                          title: const Text("Ancho:"),
-                          trailing: const Text("5 cm"),
-                        ),
-                        ListTile(
-                          title: const Text("Descuento:"),
-                          trailing: const Text("5%"),
-                        ),
-                        const Divider(),
-                        ListTile(
-                          leading: const CircleAvatar(
-                            radius: 12,
-                            backgroundColor: Color.fromRGBO(37, 57, 92, 1),
-                            child: Text(
-                              "01",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          title: const Text(
-                            "Nombre del insumo: Tinta de sublimación",
-                          ),
-                          subtitle: const Text("Cantidad usada: 3"),
-                        ),
-                        ListTile(
-                          leading: const CircleAvatar(
-                            radius: 12,
-                            backgroundColor: Color.fromRGBO(37, 57, 92, 1),
-                            child: Text(
-                              "02",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          title: const Text(
-                            "Nombre del insumo: Papel de sublimación",
-                          ),
-                          subtitle: const Text("Cantidad usada: 3"),
-                        ),
-                      ],
-                    ),
+                  // DETALLE DESPLEGABLES USANDO TABLA DETALLEVENTAS
+                  _DetalleVentaItem(
+                    index: 1,
+                    nombreProducto: "Calendario Personalizado",
+                    cantidad: 10,
+                    precioUnitario: 1200,
+                    descuento: 5,
+                    subtotal: 11400,
+                  ),
+                  _DetalleVentaItem(
+                    index: 2,
+                    nombreProducto: "Llavero Acrílico",
+                    cantidad: 5,
+                    precioUnitario: 800,
+                    descuento: 0,
+                    subtotal: 4000,
                   ),
 
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                 ],
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// **************************************
+// WIDGET DE DETALLE USANDO TABLA DETALLEVENTAS
+// **************************************
+
+class _DetalleVentaItem extends StatelessWidget {
+  final int index;
+  final String nombreProducto;
+  final int cantidad;
+  final double precioUnitario;
+  final double descuento;
+  final double subtotal;
+
+  const _DetalleVentaItem({
+    required this.index,
+    required this.nombreProducto,
+    required this.cantidad,
+    required this.precioUnitario,
+    required this.descuento,
+    required this.subtotal,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 330,
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: const Color.fromRGBO(240, 240, 240, 1),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: ExpansionTile(
+        leading: CircleAvatar(
+          radius: 14,
+          backgroundColor: const Color.fromRGBO(37, 57, 92, 1),
+          child: Text(
+            index.toString().padLeft(2, "0"),
+            style: const TextStyle(color: Colors.white, fontSize: 12),
+          ),
+        ),
+        title: Text(
+          "Producto/Servicio: $nombreProducto",
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text("Cantidad: $cantidad"),
+        children: [
+          ListTile(
+            title: const Text("Precio Unitario:"),
+            trailing: Text("\$${precioUnitario.toStringAsFixed(2)}"),
+          ),
+          ListTile(
+            title: const Text("Descuento:"),
+            trailing: Text("${descuento.toStringAsFixed(2)}%"),
+          ),
+          const Divider(),
+          ListTile(
+            title: const Text("Subtotal"),
+            trailing: Text(
+              "\$${subtotal.toStringAsFixed(2)}",
+              style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green),
             ),
           ),
         ],

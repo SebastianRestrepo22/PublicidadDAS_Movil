@@ -14,15 +14,15 @@ class EstadisticasVentasMensualesPage extends StatelessWidget {
 
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
-        child: Container(
-          decoration: const BoxDecoration(
-            color: Color(0xFF1E355C), // Azul oscuro
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30),
+        child: SafeArea(
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Color(0xFF1E355C), // Azul oscuro
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
             ),
-          ),
-          child: SafeArea(
             child: Row(
               children: [
                 Container(
