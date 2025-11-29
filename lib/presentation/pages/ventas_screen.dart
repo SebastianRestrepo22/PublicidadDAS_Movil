@@ -10,14 +10,14 @@ class ventasPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // Encabezado
+          // Encabezado AJUSTADO
           SafeArea(
             child: Container(
               width: double.infinity,
               height: 140,
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(37, 57, 92, 1),
-                borderRadius: const BorderRadius.only(
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(37, 57, 92, 1),
+                borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20),
                 ),
@@ -31,26 +31,24 @@ class ventasPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              margin: const EdgeInsets.all(25),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) =>
-                                          const HomeScreen(initialIndex: 2),
-                                    ),
-                                  );
-                                },
-                                child: const Icon(
-                                  Icons.arrow_back,
-                                  color: Colors.white,
-                                ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        const HomeScreen(initialIndex: 2),
+                                  ),
+                                );
+                              },
+                              child: const Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
                               ),
                             ),
                           ],
                         ),
+                        const SizedBox(height: 10),
                         const Text(
                           'VENTAS',
                           style: TextStyle(fontSize: 20, color: Colors.white),
@@ -156,8 +154,6 @@ class ventasPage extends StatelessWidget {
 }
 
 // WIDGET DE CARD DE VENTA 
-
-
 class _VentaCard extends StatelessWidget {
   final String nombre;
   final String fecha;

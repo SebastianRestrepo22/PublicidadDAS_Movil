@@ -9,50 +9,63 @@ class EstadisticasVentasMensualesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // NAVBAR SUPERIOR
       backgroundColor: Colors.white,
 
+      /// ---------- HEADER ----------
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
         child: SafeArea(
           child: Container(
+            width: double.infinity,
+            height: 100,
             decoration: const BoxDecoration(
-              color: Color(0xFF1E355C), // Azul oscuro
+              color: Color(0xFF243652), // Azul oscuro igual al otro
               borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
               ),
             ),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                /// Botón de regreso
                 Container(
                   margin: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const HomeScreen(initialIndex: 2),
-                            ),
-                          );
-                        },
-                        child: const Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const HomeScreen(initialIndex: 2),
                         ),
-                      ),
-                    ],
+                      );
+                    },
+                    child: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
+
+                /// Título centrado
+                const Text(
+                  'ESTADÍSTICAS MENSUALES',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                /// Espaciador para centrar el texto correctamente
+                const SizedBox(width: 48),
               ],
             ),
           ),
         ),
       ),
 
-      // CONTENIDO PRINCIPAL
+      /// ---------- CONTENIDO PRINCIPAL ----------
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -67,7 +80,6 @@ class EstadisticasVentasMensualesPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // GRAFICO
             SizedBox(
               height: 200,
               child: BarChart(
@@ -97,19 +109,17 @@ class EstadisticasVentasMensualesPage extends StatelessWidget {
                         },
                       ),
                     ),
-                    rightTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    topTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
+                    rightTitles:
+                        const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    topTitles:
+                        const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                   ),
                 ),
               ),
             ),
+
             const SizedBox(height: 20),
 
-            // LEYENDA
             Row(
               children: [
                 Container(
@@ -126,7 +136,6 @@ class EstadisticasVentasMensualesPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // CARDS
             _ventaCard(
               icon: Icons.checkroom,
               titulo: "Estampación de camisa",
@@ -157,7 +166,7 @@ class EstadisticasVentasMensualesPage extends StatelessWidget {
     );
   }
 
-  // FUNCION PARA CREAR GRUPOS DE BARRAS
+  /// BARRAS DEL GRÁFICO
   BarChartGroupData _barChartGroup(int x, double y) {
     return BarChartGroupData(
       x: x,
@@ -172,7 +181,7 @@ class EstadisticasVentasMensualesPage extends StatelessWidget {
     );
   }
 
-  // FUNCION PARA CREAR LAS CARDS
+  /// CARDS
   Widget _ventaCard({
     required IconData icon,
     required String titulo,

@@ -10,61 +10,61 @@ class comprasPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // === HEADER ===
-          Container(
-            width: double.infinity,
-            height: 140,
-            decoration: const BoxDecoration(
-              color: Color.fromRGBO(37, 57, 92, 1),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
+          // === HEADER AJUSTADO ===
+          SafeArea(
+            child: Container(
+              width: double.infinity,
+              height: 140,
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(37, 57, 92, 1),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
               ),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(15),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) =>
-                                      const HomeScreen(initialIndex: 2),
-                                ),
-                              );
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Icon(
+              child: Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(15),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        const HomeScreen(initialIndex: 2),
+                                  ),
+                                );
+                              },
+                              child: const Icon(
                                 Icons.arrow_back,
                                 color: Colors.white,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const Text(
-                        'COMPRAS',
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                          ],
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 10),
+                        const Text(
+                          'COMPRAS',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
 
-          const SizedBox(height: 50),
+          const SizedBox(height: 40),
 
           Expanded(
             child: SingleChildScrollView(

@@ -18,11 +18,11 @@ class InsumosPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // ---------- APPBAR SUPERIOR ----------  
+          // ---------- HEADER UNIFICADO ----------
           SafeArea(
             child: Container(
               width: double.infinity,
-              height: 100,
+              height: 140,
               decoration: const BoxDecoration(
                 color: Color(0xFF243652),
                 borderRadius: BorderRadius.only(
@@ -30,49 +30,54 @@ class InsumosPage extends StatelessWidget {
                   bottomRight: Radius.circular(20),
                 ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 children: [
                   Container(
-                    margin: const EdgeInsets.all(20),
+                    margin: const EdgeInsets.all(15),
                     child: Column(
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const HomeScreen(
-                                  initialIndex: 2,
-                                ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        const HomeScreen(initialIndex: 2),
+                                  ),
+                                );
+                              },
+                              child: const Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
                               ),
-                            );
-                          },
-                          child: const Icon(
-                            Icons.arrow_back,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'INSUMOS',
+                          style: TextStyle(
                             color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const Text(
-                    'INSUMOS',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(width: 48),
                 ],
               ),
             ),
           ),
 
+          const SizedBox(height: 40),
+
           // ---------- CAMPO DE BÚSQUEDA ----------
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: TextField(
               decoration: InputDecoration(
                 hintText: 'Buscar insumos',
@@ -87,6 +92,8 @@ class InsumosPage extends StatelessWidget {
               ),
             ),
           ),
+
+          const SizedBox(height: 20),
 
           // ---------- LISTA DE INSUMOS ----------
           Expanded(

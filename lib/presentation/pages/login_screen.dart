@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:publicidaddas_movil/main.dart';
 import '../widgets/oval_bottom_clipper.dart';
+// importaciones para el login
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,18 +20,67 @@ class _LoginPageState extends State<LoginPage> {
 
   final azulFondo = const Color(0xFF243652);
 
-  void _login() {
-    // Usuario y contraseña fijos (modo demo)
-    if (emailController.text == "admin@demo.com" &&
-        passwordController.text == "1234") {
-      Navigator.pushReplacement(
+  void _login() async {
+    final String email = emailController.text;
+    final String password = passwordController.text;
+
+    final url = Uri.parse(
+      'http://localhost:3000/auth/login',
+    ); // Cambia si usas emulador o dispositivo
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'CorreoElectronico': email, 'Contrasena': password}),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        print("BODY: ${response.body}"); // Para depuración
+
+        final token = data['token'];
+        if (token == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Error: token no recibido")),
+          );
+          return;
+        }
+
+        // Decodificar JWT para obtener el rol
+        final decodedToken = JwtDecoder.decode(token);
+        final userRole =
+            decodedToken['Role']?.toString().toLowerCase().trim() ?? '';
+        print("ROLE DEL TOKEN: $userRole"); // Para depuración
+
+        if (userRole == 'administrador') {
+          // Guardar token en SharedPreferences
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('jwt_token', token);
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const HomeScreen(initialIndex: 2),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Solo administradores pueden acceder"),
+            ),
+          );
+        }
+      } else {
+        final data = jsonDecode(response.body);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(data['message'] ?? 'Error al iniciar sesión')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(
         context,
-        MaterialPageRoute(builder: (_) => const HomeScreen(initialIndex: 2)),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Usuario o contraseña incorrectos")),
-      );
+      ).showSnackBar(SnackBar(content: Text('Error de conexión: $e')));
     }
   }
 
