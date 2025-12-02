@@ -1,19 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:publicidaddas_movil/main.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../widgets/insumo_card.dart';
 
-class InsumosPage extends StatelessWidget {
+class InsumosPage extends StatefulWidget {
   const InsumosPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final insumos = [
-      {'imagen': 'assets/images/insumo1.png', 'nombre': 'Vasos', 'cantidad': '50 unidades'},
-      {'imagen': 'assets/images/insumo2.png', 'nombre': 'Cuadernos', 'cantidad': '50 unidades'},
-      {'imagen': 'assets/images/insumo3.png', 'nombre': 'Lapiceros', 'cantidad': '50 unidades'},
-      {'imagen': 'assets/images/insumo4.png', 'nombre': 'Vasos', 'cantidad': '50 unidades'},
-    ];
+  State<InsumosPage> createState() => _InsumosPageState();
+}
 
+class _InsumosPageState extends State<InsumosPage> {
+  List<Map<String, dynamic>> insumos = [];
+  List<Map<String, dynamic>> insumosFiltrados = [];
+  final TextEditingController _searchController = TextEditingController();
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchInsumos();
+  }
+
+  Future<void> fetchInsumos() async {
+    try {
+      final url = Uri.parse('http://localhost:3000/api/insumos');
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final List data = jsonDecode(response.body);
+        setState(() {
+          insumos = data
+              .map((e) => {
+                    "nombre": e["Nombre"] ?? "",
+                    "stock": e["Stock"] ?? 0,
+                  })
+              .toList();
+          insumosFiltrados = insumos;
+          isLoading = false;
+        });
+      } else {
+        setState(() => isLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("No se pudieron cargar los insumos")),
+        );
+      }
+    } catch (e) {
+      setState(() => isLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error al cargar insumos: $e")),
+      );
+    }
+  }
+
+  void _buscarInsumo(String query) {
+    setState(() {
+      insumosFiltrados = insumos
+          .where(
+              (i) => i["nombre"].toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -79,6 +130,8 @@ class InsumosPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: TextField(
+              controller: _searchController,
+              onChanged: _buscarInsumo,
               decoration: InputDecoration(
                 hintText: 'Buscar insumos',
                 prefixIcon: const Icon(Icons.search),
@@ -97,18 +150,23 @@ class InsumosPage extends StatelessWidget {
 
           // ---------- LISTA DE INSUMOS ----------
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: insumos.length,
-              itemBuilder: (context, index) {
-                final item = insumos[index];
-                return InsumoCard(
-                  nombre: item['nombre']!,
-                  cantidad: item['cantidad']!,
-                  imagen: item['imagen']!,
-                );
-              },
-            ),
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : insumosFiltrados.isEmpty
+                    ? const Center(child: Text("No se encontraron insumos"))
+                    : ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: insumosFiltrados.length,
+                        itemBuilder: (context, index) {
+                          final i = insumosFiltrados[index];
+                          return InsumoCard(
+                            nombre: i["nombre"],
+                            cantidad: "${i["stock"]} unidades",
+                            imagen:
+                                "assets/images/insumo2.png", // Imagen genérica
+                          );
+                        },
+                      ),
           ),
         ],
       ),

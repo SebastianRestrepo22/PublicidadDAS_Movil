@@ -15,11 +15,8 @@ class perfilPage extends StatefulWidget {
 
 class _PerfilPageState extends State<perfilPage> {
   Map<String, dynamic>? userData;
-
   final TextEditingController nombreController = TextEditingController();
   final TextEditingController correoController = TextEditingController();
-  final TextEditingController telefonoController = TextEditingController();
-  final TextEditingController direccionController = TextEditingController();
 
   @override
   void initState() {
@@ -43,9 +40,7 @@ class _PerfilPageState extends State<perfilPage> {
       final decodedToken = JwtDecoder.decode(token);
       final userId = decodedToken['CedulaId'];
 
-      // === Cambiado localhost → 10.0.2.2 para Android Emulator ===
-      final url = Uri.parse('http://10.0.2.2:3000/usuarios/$userId');
-
+      final url = Uri.parse('http://localhost:3000/user/$userId');
       final response = await http.get(
         url,
         headers: {'Authorization': 'Bearer $token'},
@@ -57,24 +52,24 @@ class _PerfilPageState extends State<perfilPage> {
           userData = data;
           nombreController.text = data['NombreCompleto'] ?? '';
           correoController.text = data['CorreoElectronico'] ?? '';
-          telefonoController.text = data['Telefono'] ?? '';
-          direccionController.text = data['Direccion'] ?? '';
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("No se pudieron cargar los datos del usuario")),
+          const SnackBar(
+            content: Text("No se pudieron cargar los datos del usuario"),
+          ),
         );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error al cargar datos: $e")),
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Error al cargar datos: $e")));
     }
   }
 
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('jwt_token');
+
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (_) => const LoginPage()),
@@ -87,13 +82,12 @@ class _PerfilPageState extends State<perfilPage> {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('jwt_token');
 
-    final url = Uri.parse('http://10.0.2.2:3000/usuarios/${userData!['CedulaId']}');
+    final url =
+        Uri.parse('http://localhost:3000/user/${userData!['CedulaId']}');
 
     final payload = {
       'NombreCompleto': nombreController.text.trim(),
       'CorreoElectronico': correoController.text.trim(),
-      'Telefono': telefonoController.text.trim(),
-      'Direccion': direccionController.text.trim(),
     };
 
     try {
@@ -101,7 +95,7 @@ class _PerfilPageState extends State<perfilPage> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token'
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(payload),
       );
@@ -117,9 +111,8 @@ class _PerfilPageState extends State<perfilPage> {
         );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error al actualizar: $e")),
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Error al actualizar: $e")));
     }
   }
 
@@ -128,9 +121,7 @@ class _PerfilPageState extends State<perfilPage> {
     final azulFondo = const Color.fromRGBO(37, 57, 92, 1);
 
     if (userData == null) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
@@ -165,16 +156,19 @@ class _PerfilPageState extends State<perfilPage> {
                       child: const Icon(Icons.arrow_back, color: Colors.white),
                     ),
                   ),
-                  Image.asset('assets/images/perfilImage.png', width: 100, height: 80),
-                  Text(
-                    userData?['RoleNombre'] ?? 'Cargando...',
-                    style: const TextStyle(fontSize: 20, color: Colors.white),
+                  Image.asset(
+                    'assets/images/perfilImage.png',
+                    width: 100,
+                    height: 80,
+                  ),
+                  const Text(
+                    'Administrador',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
                 ],
               ),
             ),
           ),
-
           Expanded(
             child: SingleChildScrollView(
               child: Container(
@@ -184,24 +178,23 @@ class _PerfilPageState extends State<perfilPage> {
                     const SizedBox(height: 20),
                     _campoEditable('Nombre completo', nombreController),
                     _campoEditable('Correo electrónico', correoController),
-                    _campoEditable('Teléfono', telefonoController),
-                    _campoEditable('Dirección', direccionController),
                     const SizedBox(height: 20),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          onPressed: updateUser,
-                          style: ElevatedButton.styleFrom(backgroundColor: azulFondo),
-                          child: const Text("Actualizar"),
+                    GestureDetector(
+                      onTap: logout,
+                      child: Container(
+                        width: 200,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: azulFondo,
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        ElevatedButton(
-                          onPressed: logout,
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                          child: const Text("Salir"),
+                        child: const Center(
+                          child: Text(
+                            'Salir',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
-                      ],
+                      ),
                     ),
                     const SizedBox(height: 20),
                   ],
@@ -225,7 +218,10 @@ class _PerfilPageState extends State<perfilPage> {
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.grey[300],
-            contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: 12,
+              horizontal: 12,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide.none,
