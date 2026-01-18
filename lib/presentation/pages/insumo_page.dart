@@ -163,7 +163,7 @@ class _InsumosPageState extends State<InsumosPage> {
                             nombre: i["nombre"],
                             cantidad: "${i["stock"]} unidades",
                             imagen:
-                                "assets/images/insumo2.png", // Imagen genérica
+                                "assets/images/insumo2.png", 
                           );
                         },
                       ),
